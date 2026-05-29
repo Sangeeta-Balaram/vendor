@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  --color-purple-deep: #7C3AED;
+  --color-purple-mid: #A855F7;
+  --color-red-deep: #8B0000;
+  --color-red-wine: #5B0212;
+  --color-bg: #FAFAFC;
+  --color-dark-bg: #0F172A;
+  --color-card: #050816;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --radius-card: 24px;
+  --shadow-soft: 0 20px 60px rgba(0,0,0,.08);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.gradient-primary {
+  background: linear-gradient(90deg, #FB923C 0%, #EF4444 25%, #EC4899 50%, #A855F7 75%, #3B82F6 100%);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #FB923C, #EF4444, #EC4899, #A855F7, #3B82F6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-purple {
+  background: linear-gradient(90deg, #7C3AED, #A855F7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glow-purple {
+  box-shadow: 0 0 30px rgba(124,58,237,.15);
+}
