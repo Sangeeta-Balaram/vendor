@@ -50,8 +50,8 @@ export default function Navbar() {
     : <Link href="/partner" className="flex-1 text-center px-4 py-2 text-sm font-semibold text-white gradient-primary rounded-full">Partner Login</Link>
 
   return (
-    <nav className="sticky top-0 z-50 h-[100px] bg-white/80 backdrop-blur-xl border-b border-gray-100/60">
-      <div className="max-w-[1280px] mx-auto h-full px-6 flex items-center justify-between">
+<nav className="sticky top-0 z-50 h-[80px] lg:h-[100px] bg-white/80 backdrop-blur-xl border-b border-gray-100/60">
+  <div className="max-w-[1280px] mx-auto h-full px-6 flex items-center justify-between">
         <Link href="/" className="group">
           <img src="/logo.svg" alt="The Revieree Studios" className="w-24 h-24 group-hover:scale-105 transition-transform object-contain" />
         </Link>
