@@ -53,7 +53,7 @@ export default function Footer() {
           <div>
             <h4 className={`text-[10px] font-semibold uppercase tracking-[.2em] mb-5 ${grad}`}>Company</h4>
             <div className="flex flex-col gap-2.5">
-              {['How it works', 'Pricing', 'Resources', 'Partner Program', 'Privacy Policy', 'Terms of Service'].map(s => (
+              {['How it works', 'Resources', 'Partner Program', 'Privacy Policy', 'Terms of Service'].map(s => (
                 <Link key={s} href={`/${s.toLowerCase().replace(/\s+/g, '-')}`} className="text-sm text-white/50 hover:text-white transition-colors">{s}</Link>
               ))}
             </div>

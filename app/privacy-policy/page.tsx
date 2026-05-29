@@ -68,13 +68,13 @@ export default function PrivacyPage() {
           <p>We use essential cookies for session management and authentication. We do not use tracking cookies or third-party advertising cookies. The Calendly booking widget may set its own cookies; please refer to Calendly&apos;s privacy policy for details.</p>
         </Section>
 
-        <Section title="9. Third-Party Services">
-          <p>We use the following third-party services:</p>
+        <Section title="9. Lodge a Complaint">
+          <p>If you believe we have violated data protection laws or mishandled your personal information, you have the right to lodge a complaint with your local data protection authority.</p>
+          <p className="mt-2">For users in India, you may contact:</p>
           <ul className="list-disc pl-6 space-y-1 text-gray-600 mt-2">
-            <li><strong>Supabase</strong> — Database and authentication (GDPR compliant)</li>
-            <li><strong>Calendly</strong> — Scheduling and booking (view their privacy policy)</li>
-            <li><strong>Vercel</strong> — Hosting and deployment (GDPR compliant)</li>
+            <li><strong>Ministry of Electronics &amp; Information Technology (MeitY)</strong> — <a href="https://www.meity.gov.in" className="text-purple-600 hover:underline">www.meity.gov.in</a></li>
           </ul>
+          <p className="mt-2">We encourage you to reach out to us first at <a href="mailto:sangeeta@thereviereestudios.in" className="text-purple-600 hover:underline">sangeeta@thereviereestudios.in</a> so we can address your concerns directly.</p>
         </Section>
 
         <Section title="10. Contact Us">
