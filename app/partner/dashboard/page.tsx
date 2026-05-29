@@ -23,7 +23,7 @@ export default function PartnerDashboard() {
   const router = useRouter()
 
   useEffect(() => {
-    fetch('/api/partner/data').then(r => {
+   fetch('/api/partner/me').then(r => {
       if (!r.ok) { router.push('/partner/login'); return }
       return r.json()
     }).then(d => { setData(d); setLoading(false) }).catch(() => router.push('/partner/login'))
