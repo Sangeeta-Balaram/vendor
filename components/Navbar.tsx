@@ -76,9 +76,11 @@ export default function Navbar() {
         </button>
       </div>
 
+      {open && <div className="fixed inset-0 top-[70px] bg-black/20 z-40 lg:hidden" onClick={() => setOpen(false)} />}
+
       <AnimatePresence>
         {open && (
-          <div className="lg:hidden bg-white border-t border-gray-100 overflow-hidden">
+          <div className="lg:hidden bg-white border-t border-gray-100 overflow-hidden relative z-50">
             <div className="px-6 py-4 flex flex-col gap-3">
               {!isHome && <Link href="/" onClick={() => setOpen(false)} className="text-sm font-medium">Home</Link>}
               <a href="/#how-it-works" onClick={() => setOpen(false)} className="text-sm font-medium">How it works</a>
