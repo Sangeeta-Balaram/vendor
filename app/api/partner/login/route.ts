@@ -24,9 +24,12 @@ export async function POST(req: Request) {
     const body = await req.json()
     const parsed = loginSchema.parse(body)
 
-    const { data } = await supabaseAdmin.from('quotes').select('email').eq('name', parsed.name).eq('phone', parsed.phone).limit(1).single()
+    const { data: quoteData } = await supabaseAdmin.from('quotes').select('email').ilike('name', parsed.name).eq('phone', parsed.phone).limit(1).maybeSingle()
+    const { data: contactData } = await supabaseAdmin.from('contacts').select('email').ilike('name', parsed.name).eq('phone', parsed.phone).limit(1).maybeSingle()
+
+    const data = quoteData || contactData
     if (!data) {
-      return NextResponse.json({ success: false, error: 'No records found with that name and phone' }, { status: 404 })
+      return NextResponse.json({ success: false, error: 'No records found with that name and phone. Please submit a contact form or quote first.' }, { status: 404 })
     }
 
     const token = createToken(parsed.name, parsed.phone)

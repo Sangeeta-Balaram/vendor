@@ -18,7 +18,9 @@ export async function POST(req: Request) {
     const body = await req.json()
     const parsed = checkSchema.parse(body)
 
-    const { data } = await supabaseAdmin.from('quotes').select('email').eq('name', parsed.name).eq('phone', parsed.phone).limit(1).single()
+    const { data: quoteData } = await supabaseAdmin.from('quotes').select('email').ilike('name', parsed.name).eq('phone', parsed.phone).limit(1).maybeSingle()
+    const { data: contactData } = await supabaseAdmin.from('contacts').select('email').ilike('name', parsed.name).eq('phone', parsed.phone).limit(1).maybeSingle()
+    const data = quoteData || contactData
     if (data) return NextResponse.json({ exists: true, email: data.email })
     return NextResponse.json({ exists: false })
   } catch {

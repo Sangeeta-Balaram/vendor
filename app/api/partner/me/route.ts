@@ -24,8 +24,11 @@ export async function GET() {
     const partner = getPartnerFromToken(token)
     if (!partner) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const { data: partnerData } = await supabaseAdmin
-      .from('quotes').select('email').eq('name', partner.name).eq('phone', partner.phone).limit(1).maybeSingle()
+    const { data: quoteData } = await supabaseAdmin.from('quotes').select('email').ilike('name', partner.name).eq('phone', partner.phone).limit(1).maybeSingle()
+    const { data: contactData } = await supabaseAdmin.from('contacts').select('email').ilike('name', partner.name).eq('phone', partner.phone).limit(1).maybeSingle()
+    if (!quoteData && !contactData) return NextResponse.json({ error: 'Partner not found' }, { status: 401 })
+
+    const partnerEmail = quoteData?.email || contactData?.email || ''
 
     const [quotes, negotiations, agreements, onboarding, resourceAccess] = await Promise.all([
       supabaseAdmin.from('quotes').select('*').eq('phone', partner.phone).order('created_at', { ascending: false }),
@@ -37,7 +40,7 @@ export async function GET() {
 
     return NextResponse.json({
       loggedIn: true,
-      partner: { name: partner.name, phone: partner.phone, email: partnerData?.email || '' },
+      partner: { name: partner.name, phone: partner.phone, email: partnerEmail },
       quotes: quotes.data || [],
       contacts: [],
       bookings: [],
