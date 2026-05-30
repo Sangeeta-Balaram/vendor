@@ -19,14 +19,14 @@ export async function GET() {
     const { cookies } = await import('next/headers')
     const cookieStore = await cookies()
     const token = cookieStore.get('partner_token')?.value
-    if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!token) return NextResponse.json({ loggedIn: false })
 
     const partner = getPartnerFromToken(token)
-    if (!partner) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!partner) return NextResponse.json({ loggedIn: false })
 
     const { data: quoteData } = await supabaseAdmin.from('quotes').select('email').ilike('name', partner.name).eq('phone', partner.phone).limit(1).maybeSingle()
     const { data: contactData } = await supabaseAdmin.from('contacts').select('email').ilike('name', partner.name).eq('phone', partner.phone).limit(1).maybeSingle()
-    if (!quoteData && !contactData) return NextResponse.json({ error: 'Partner not found' }, { status: 401 })
+    if (!quoteData && !contactData) return NextResponse.json({ loggedIn: false })
 
     const partnerEmail = quoteData?.email || contactData?.email || ''
 
