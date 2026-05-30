@@ -56,50 +56,46 @@ export default function QuoteBuilder() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="grid grid-cols-2 gap-3 items-stretch">
-            <div className="bg-white/5 backdrop-blur-sm rounded-[20px] p-4 border border-white/5">
+            <div className="bg-white/[0.08] backdrop-blur-sm rounded-[20px] p-3 md:p-4 border border-white/10">
               <div className="space-y-1">
                 {services.slice(0, 4).map(s => (
-                  <label key={s.id} className={`flex items-center justify-between p-1.5 rounded-xl cursor-pointer transition-all duration-200 ${selected.includes(s.id) ? 'bg-purple-600/15 border border-purple-500/20' : 'bg-white/5 border border-transparent hover:bg-white/10'}`}>
-                    <div className="flex items-center gap-2">
-                      <div onClick={() => toggle(s.id)} className={`w-4 h-4 rounded-lg flex items-center justify-center transition-all ${selected.includes(s.id) ? 'bg-purple-600' : 'bg-white/10 border border-white/20'}`}>
-                        {selected.includes(s.id) && <Check className="w-2.5 h-2.5 text-white" />}
-                      </div>
-                      <div>
-                        <span className="text-xs font-medium text-white">{s.name}</span>
-                        <span className="text-[8px] text-white/30 block leading-none mt-0.5">{s.cat}</span>
-                      </div>
+                  <label key={s.id} className={`flex items-center gap-1 p-1.5 rounded-xl cursor-pointer transition-all duration-200 ${selected.includes(s.id) ? 'bg-purple-600/15 border border-purple-500/20' : 'bg-white/5 border border-transparent hover:bg-white/10'}`}>
+                    <div onClick={() => toggle(s.id)} className={`w-3.5 h-3.5 rounded-lg flex items-center justify-center transition-all flex-shrink-0 ${selected.includes(s.id) ? 'bg-purple-600' : 'bg-white/10 border border-white/20'}`}>
+                      {selected.includes(s.id) && <Check className="w-2 h-2 text-white" />}
                     </div>
-                    <span className="text-xs font-bold text-white/80">{formatINR(s.price)}</span>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[10px] sm:text-xs font-medium text-white truncate block">{s.name}</span>
+                      <span className="text-[7px] sm:text-[8px] text-white/30 block leading-none mt-0.5">{s.cat}</span>
+                    </div>
+                    <span className="text-[10px] sm:text-xs font-bold text-white/80 flex-shrink-0">{formatINR(s.price)}</span>
                   </label>
                 ))}
               </div>
-              <button onClick={scrollToSolutions} className="w-full mt-2 text-[10px] font-semibold text-purple-400 hover:text-purple-300 transition-colors text-center">View all services →</button>
+              <button onClick={scrollToSolutions} className="w-full mt-2 text-[9px] sm:text-[10px] font-semibold text-purple-400 hover:text-purple-300 transition-colors text-center">View all services →</button>
             </div>
 
-            <div className="bg-white/5 backdrop-blur-sm rounded-[20px] p-4 border border-white/5">
+            <div className="bg-white/[0.08] backdrop-blur-sm rounded-[20px] p-3 md:p-4 border border-white/10">
               <div className="space-y-1 mb-3">
                 {services.slice(4, 8).map(s => (
-                  <label key={s.id} className={`flex items-center justify-between p-1.5 rounded-xl cursor-pointer transition-all duration-200 ${selected.includes(s.id) ? 'bg-purple-600/15 border border-purple-500/20' : 'bg-white/5 border border-transparent hover:bg-white/10'}`}>
-                    <div className="flex items-center gap-2">
-                      <div onClick={() => toggle(s.id)} className={`w-4 h-4 rounded-lg flex items-center justify-center transition-all ${selected.includes(s.id) ? 'bg-purple-600' : 'bg-white/10 border border-white/20'}`}>
-                        {selected.includes(s.id) && <Check className="w-2.5 h-2.5 text-white" />}
-                      </div>
-                      <div>
-                        <span className="text-xs font-medium text-white">{s.name}</span>
-                        <span className="text-[8px] text-white/30 block leading-none mt-0.5">{s.cat}</span>
-                      </div>
+                  <label key={s.id} className={`flex items-center gap-1 p-1.5 rounded-xl cursor-pointer transition-all duration-200 ${selected.includes(s.id) ? 'bg-purple-600/15 border border-purple-500/20' : 'bg-white/5 border border-transparent hover:bg-white/10'}`}>
+                    <div onClick={() => toggle(s.id)} className={`w-3.5 h-3.5 rounded-lg flex items-center justify-center transition-all flex-shrink-0 ${selected.includes(s.id) ? 'bg-purple-600' : 'bg-white/10 border border-white/20'}`}>
+                      {selected.includes(s.id) && <Check className="w-2 h-2 text-white" />}
                     </div>
-                    <span className="text-xs font-bold text-white/80">{formatINR(s.price)}</span>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[10px] sm:text-xs font-medium text-white truncate block">{s.name}</span>
+                      <span className="text-[7px] sm:text-[8px] text-white/30 block leading-none mt-0.5">{s.cat}</span>
+                    </div>
+                    <span className="text-[10px] sm:text-xs font-bold text-white/80 flex-shrink-0">{formatINR(s.price)}</span>
                   </label>
                 ))}
               </div>
-              <div className="border-t border-white/5 pt-2 space-y-1">
-                <div className="flex justify-between text-xs text-white/40"><span>Subtotal</span><span>{formatINR(subtotal)}</span></div>
-                {discount > 0 && <div className="flex justify-between text-xs text-green-400/80"><span>Bundle Discount (10%)</span><span>-{formatINR(discount)}</span></div>}
-                <div className="flex justify-between text-xs text-white/40"><span>GST (18%)</span><span>{formatINR(gst)}</span></div>
-                <div className="flex justify-between text-sm font-extrabold text-white pt-2 border-t border-white/10">
+              <div className="border-t border-white/5 pt-2 space-y-0.5">
+                <div className="flex justify-between text-[10px] sm:text-xs text-white/40"><span>Subtotal</span><span>{formatINR(subtotal)}</span></div>
+                {discount > 0 && <div className="flex justify-between text-[9px] sm:text-xs text-green-400/80"><span>Bundle Discount (10%)</span><span>-{formatINR(discount)}</span></div>}
+                <div className="flex justify-between text-[10px] sm:text-xs text-white/40"><span>GST (18%)</span><span>{formatINR(gst)}</span></div>
+                <div className="flex justify-between text-xs sm:text-sm font-extrabold text-white pt-2 border-t border-white/10">
                   <span>Total</span>
-                  <span className="inline-block bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 bg-clip-text text-transparent text-base"><AnimatedNumber value={total} /></span>
+                  <span className="inline-block bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 bg-clip-text text-transparent text-sm sm:text-base"><AnimatedNumber value={total} /></span>
                 </div>
               </div>
             </div>
