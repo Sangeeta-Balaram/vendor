@@ -18,7 +18,7 @@ const techItems = [
 
 export default function DifferentiatorSection() {
   return (
-    <section className="pt-2 pb-24 px-6">
+    <section className="pt-2 pb-16 md:pb-24 px-4 sm:px-6">
       <div className="max-w-[1100px] mx-auto">
         <h2 className="text-center text-[28px] md:text-[32px] font-extrabold tracking-[-.03em] mb-12 bg-gradient-to-r from-blue-700 to-purple-700 bg-clip-text text-transparent">The perfect blend of creativity &amp; technology</h2>
         <div className="relative">
@@ -36,9 +36,9 @@ export default function DifferentiatorSection() {
                 </div>
                 <h3 className="text-sm font-bold bg-gradient-to-r from-purple-800 to-purple-600 bg-clip-text text-transparent">Creative Excellence</h3>
               </div>
-              <div className="grid grid-cols-4 gap-1 relative">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 relative">
                 {creativeItems.map(item => (
-<div key={item.id} className="flex flex-col items-center gap-1">
+ <div key={item.id} className="flex flex-col items-center gap-1">
                      <span className="text-purple-500">{item.icon}</span>
                      <span className="text-[11px] font-semibold text-gray-600 text-center leading-tight">{item.label}</span>
                    </div>
@@ -67,14 +67,14 @@ export default function DifferentiatorSection() {
                    <Cpu className="w-4 h-4 text-white" />
                  </div>
                </div>
-               <div className="grid grid-cols-4 gap-1 relative">
+               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 relative">
                  {techItems.map(item => (
-                   <div key={item.id} className="flex flex-col items-center gap-1">
-                    <span className="text-blue-500">{item.icon}</span>
-                    <span className="text-[11px] font-semibold text-gray-600 text-center leading-tight">{item.label}</span>
-                  </div>
-                ))}
-              </div>
+                    <div key={item.id} className="flex flex-col items-center gap-1">
+                     <span className="text-blue-500">{item.icon}</span>
+                     <span className="text-[11px] font-semibold text-gray-600 text-center leading-tight">{item.label}</span>
+                   </div>
+                 ))}
+               </div>
             </motion.div>
           </div>
 

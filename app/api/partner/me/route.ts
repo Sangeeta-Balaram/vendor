@@ -25,8 +25,7 @@ export async function GET() {
     if (!partner) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { data: partnerData } = await supabaseAdmin
-      .from('quotes').select('email').eq('name', partner.name).eq('phone', partner.phone).limit(1).single()
-    if (!partnerData) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      .from('quotes').select('email').eq('name', partner.name).eq('phone', partner.phone).limit(1).maybeSingle()
 
     const [quotes, negotiations, agreements, onboarding, resourceAccess] = await Promise.all([
       supabaseAdmin.from('quotes').select('*').eq('phone', partner.phone).order('created_at', { ascending: false }),
@@ -37,7 +36,8 @@ export async function GET() {
     ])
 
     return NextResponse.json({
-      partner: { name: partner.name, phone: partner.phone, email: partnerData.email },
+      loggedIn: true,
+      partner: { name: partner.name, phone: partner.phone, email: partnerData?.email || '' },
       quotes: quotes.data || [],
       contacts: [],
       bookings: [],

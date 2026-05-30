@@ -32,9 +32,9 @@ export default function QuoteBuilder() {
   }
 
   return (
-    <section className="pt-14 pb-24 px-6">
-      <div className="max-w-[1100px] mx-auto bg-gradient-to-br from-[#0F172A] to-[#050816] rounded-[32px] p-8 md:p-14">
-        <div className="grid md:grid-cols-2 gap-6">
+    <section className="pt-10 md:pt-14 pb-16 md:pb-24 px-4 sm:px-6">
+      <div className="max-w-[1100px] mx-auto bg-gradient-to-br from-[#0F172A] to-[#050816] rounded-[24px] md:rounded-[32px] p-5 md:p-14">
+        <div className="grid md:grid-cols-2 gap-4 md:gap-6">
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
             <h2 className="text-[28px] md:text-[32px] font-extrabold text-white tracking-[-.03em] leading-[1.1] mb-2">
               Build your package.<br />See your price.<br />

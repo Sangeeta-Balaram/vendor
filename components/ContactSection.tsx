@@ -15,7 +15,7 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="max-w-[1100px] mx-auto px-6 py-24">
+    <section id="contact" className="max-w-[1100px] mx-auto px-4 sm:px-6 py-16 md:py-24">
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
         <h2 className="text-[40px] font-extrabold tracking-[-.03em] mb-4">Contact Us</h2>
         <p className="text-gray-400 text-lg max-w-[500px] mx-auto">Have a project in mind? We'd love to hear from you.</p>

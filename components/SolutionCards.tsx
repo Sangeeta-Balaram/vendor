@@ -46,7 +46,7 @@ export default function SolutionCards() {
   const tech = solutions.filter(s => s.cat === 'tech')
 
   return (
-    <section id="solutions" className="pt-24 pb-12 px-12 md:px-20">
+    <section id="solutions" className="pt-24 pb-12 px-4 sm:px-8 md:px-20">
       <svg className="absolute w-0 h-0">
         <defs>
           <linearGradient id="iconGradCreative" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -66,14 +66,14 @@ export default function SolutionCards() {
 
       <div className="max-w-[1400px] mx-auto mb-16">
         <h3 className="text-2xl font-extrabold mb-8 text-center bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">Creative Excellence</h3>
-        <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
           {creative.map((s, i) => <Card key={s.slug} s={s} i={i} />)}
         </div>
       </div>
 
       <div className="max-w-[1400px] mx-auto">
         <h3 className="text-2xl font-extrabold mb-8 text-center bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">Technology Power</h3>
-        <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
           {tech.map((s, i) => <Card key={s.slug} s={s} i={i} />)}
         </div>
       </div>

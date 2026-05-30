@@ -8,8 +8,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false }, { status: 401 })
   }
   const res = NextResponse.json({ success: true })
+  const isSecure = process.env.NODE_ENV === 'production'
   res.cookies.set('admin_token', result.token!, {
-    httpOnly: true, secure: false, sameSite: 'lax', maxAge: 86400, path: '/',
+    httpOnly: true, secure: isSecure, sameSite: 'lax', maxAge: 86400, path: '/',
   })
   return res
 }

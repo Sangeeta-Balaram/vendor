@@ -82,13 +82,13 @@ export default function PartnerDashboard() {
           <a href="mailto:sangeeta@thereviereestudios.in" className="bg-white rounded-xl p-4 border border-gray-100 text-center hover:border-blue-200 transition-colors"><Mail className="w-5 h-5 text-gray-400 mx-auto mb-1" /><p className="text-[10px] text-gray-500">Contact Support</p></a>
         </div>
 
-        <div className="flex gap-1 mb-6 bg-white rounded-2xl p-1 border border-gray-100 overflow-x-auto">
+        <div className="flex gap-1 mb-6 bg-white rounded-2xl p-1 border border-gray-100 overflow-x-auto [-webkit-overflow-scrolling:touch] snap-x snap-mandatory">
           {tabs.map(tab => {
             const Icon = tab.icon
             return (
               <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-medium rounded-xl transition-all whitespace-nowrap ${activeTab === tab.key ? 'bg-blue-50 text-blue-700 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}>
-                <Icon className="w-4 h-4" />{tab.label}
+                className={`flex-1 min-w-[100px] flex items-center justify-center gap-1.5 py-2.5 text-xs font-medium rounded-xl transition-all whitespace-nowrap snap-start ${activeTab === tab.key ? 'bg-blue-50 text-blue-700 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}>
+                <Icon className="w-3.5 h-3.5 shrink-0" />{tab.label}
               </button>
             )
           })}

@@ -26,7 +26,7 @@ export default function HeroSection() {
   }
 
   return (
-    <section className="relative overflow-hidden min-h-[70vh] flex items-center px-6 pt-20 pb-12">
+    <section className="relative overflow-hidden min-h-[70vh] flex items-center px-4 sm:px-6 pt-16 md:pt-20 pb-12">
       <div className="absolute top-[-300px] left-[-200px] w-[600px] h-[600px] bg-purple-500/8 rounded-full blur-[150px]" />
       <div className="absolute bottom-[-300px] right-[-200px] w-[600px] h-[600px] bg-red-500/8 rounded-full blur-[150px]" />
 
@@ -35,12 +35,12 @@ export default function HeroSection() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-purple-50 border border-purple-200/50 rounded-full text-[11px] font-semibold text-purple-deep uppercase tracking-[.15em] mb-6">
             <span className="w-1.5 h-1.5 bg-purple-deep rounded-full" /> Partner Portal
           </div>
-          <h1 className="text-[52px] md:text-[72px] lg:text-[80px] font-extrabold leading-[1.05] tracking-[-.03em] mb-5">
+          <h1 className="text-[36px] sm:text-[52px] md:text-[72px] lg:text-[80px] font-extrabold leading-[1.05] tracking-[-.03em] mb-5">
             Build Solutions.
             <br />
             <span className="gradient-text">Get Instant Quotes.</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 max-w-[520px] leading-relaxed mb-8">
+          <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-[520px] leading-relaxed mb-8">
             Select what your client needs, get AI-recommended services, negotiate, generate proposals, and close deals faster.
           </p>
           <div className="flex flex-wrap gap-3 mb-10">

@@ -12,8 +12,8 @@ export default function Footer() {
   return (
     <footer className="bg-dark-bg text-white/70">
       <div className="max-w-[1280px] mx-auto px-6 py-16">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-12">
-          <div className="col-span-2 md:col-span-1">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 md:gap-10 mb-12">
+          <div className="col-span-2 sm:col-span-3 md:col-span-1">
             <div className="mb-4">
               <img src="/logo.svg" alt="The Revieree Studios" className="w-28 h-28 object-contain brightness-0 invert" />
             </div>

@@ -14,8 +14,11 @@ export default function Navbar() {
 
   useEffect(() => {
     const check = () => {
-      fetch('/api/partner/me').then(r => r.json()).then(d => {
-        if (d.loggedIn) setPartner(d)
+      fetch('/api/partner/me').then(r => {
+        if (!r.ok) { setPartner(null); return }
+        return r.json()
+      }).then(d => {
+        if (d?.loggedIn && d?.partner?.name) setPartner({ name: d.partner.name })
         else setPartner(null)
       }).catch(() => setPartner(null))
     }
@@ -50,10 +53,10 @@ export default function Navbar() {
     : <Link href="/partner" className="flex-1 text-center px-4 py-2 text-sm font-semibold text-white gradient-primary rounded-full">Partner Login</Link>
 
   return (
-<nav className="sticky top-0 z-50 h-[80px] lg:h-[100px] bg-white/80 backdrop-blur-xl border-b border-gray-100/60">
-  <div className="max-w-[1280px] mx-auto h-full px-6 flex items-center justify-between">
+<nav className="sticky top-0 z-50 h-[70px] lg:h-[100px] bg-white/80 backdrop-blur-xl border-b border-gray-100/60">
+  <div className="max-w-[1280px] mx-auto h-full px-4 lg:px-6 flex items-center justify-between">
         <Link href="/" className="group">
-          <img src="/logo.svg" alt="The Revieree Studios" className="w-24 h-24 group-hover:scale-105 transition-transform object-contain" />
+          <img src="/logo.svg" alt="The Revieree Studios" className="w-16 h-16 lg:w-24 lg:h-24 group-hover:scale-105 transition-transform object-contain" />
         </Link>
 
         <div className="hidden lg:flex items-center gap-6">

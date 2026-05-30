@@ -10,7 +10,7 @@ const stats = [
 
 export default function TrustSection() {
   return (
-    <section className="py-24 px-6 bg-dark-bg">
+    <section className="py-16 md:py-24 px-4 sm:px-6 bg-dark-bg">
       <div className="max-w-[1100px] mx-auto text-center">
         <h3 className="text-[24px] md:text-[28px] font-bold text-white/80 mb-12 tracking-[-.02em]">Trusted by businesses worldwide</h3>
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}

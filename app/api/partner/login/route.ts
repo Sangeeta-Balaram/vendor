@@ -31,7 +31,8 @@ export async function POST(req: Request) {
 
     const token = createToken(parsed.name, parsed.phone)
     const res = NextResponse.json({ success: true, name: parsed.name, email: data.email })
-    res.cookies.set('partner_token', token, { httpOnly: true, secure: false, sameSite: 'lax', maxAge: 86400, path: '/' })
+    const isSecure = process.env.NODE_ENV === 'production'
+    res.cookies.set('partner_token', token, { httpOnly: true, secure: isSecure, sameSite: 'lax', maxAge: 86400, path: '/' })
     return res
   } catch (err: unknown) {
     if (err instanceof z.ZodError) {
