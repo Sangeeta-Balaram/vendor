@@ -11,40 +11,69 @@ const steps = [
   { icon: UserCheck, label: 'Onboarding', desc: 'Kickoff & delivery' },
 ]
 
-const colors = [
-  { border: 'border-purple-400', icon: 'text-purple-500', numBg: 'bg-purple-deep' },
-  { border: 'border-blue-400', icon: 'text-blue-500', numBg: 'bg-blue-600' },
-  { border: 'border-emerald-400', icon: 'text-emerald-500', numBg: 'bg-emerald-600' },
-  { border: 'border-orange-400', icon: 'text-orange-500', numBg: 'bg-orange-600' },
-  { border: 'border-red-400', icon: 'text-red-500', numBg: 'bg-red-600' },
-  { border: 'border-indigo-400', icon: 'text-indigo-500', numBg: 'bg-indigo-600' },
-]
-
 export default function ProcessTimeline() {
   return (
     <section id="how-it-works" className="pt-12 md:pt-16 pb-16 md:pb-24 px-4 sm:px-6 bg-white">
-      <div className="max-w-[900px] mx-auto text-center mb-20">
-        <h2 className="text-[40px] md:text-[48px] font-extrabold tracking-[-.03em] mb-4">How it works</h2>
-        <p className="text-gray-400 text-lg">From selection to delivery in 6 simple steps.</p>
+      <div className="max-w-[900px] mx-auto text-center mb-8 md:mb-20">
+        <h2 className="text-[32px] md:text-[48px] font-extrabold tracking-[-.03em] mb-4">How it works</h2>
+        <p className="text-gray-400 text-sm md:text-lg">From selection to delivery in 6 simple steps.</p>
       </div>
       <div className="max-w-[1200px] mx-auto">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:flex lg:justify-center lg:items-start gap-4 lg:gap-2">
+        {/* Mobile: vertical timeline */}
+        <div className="lg:hidden max-w-[400px] mx-auto">
           {steps.map((s, i) => (
-            <div key={s.label} className="flex items-center gap-2 lg:gap-3">
+            <motion.div key={s.label}
+              initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              transition={{ delay: i * 0.07 }}
+              className="flex items-start gap-4 relative pb-8 last:pb-0"
+            >
+              {i < steps.length - 1 && (
+                <div className="absolute left-[17px] top-10 bottom-0 w-0.5 bg-gradient-to-b from-purple-400 to-blue-400" />
+              )}
+              <div className={`w-9 h-9 rounded-xl border-2 flex items-center justify-center flex-shrink-0 bg-white shadow-sm ${
+                i === 0 ? 'border-purple-400' : i === 1 ? 'border-blue-400' : i === 2 ? 'border-emerald-400' : i === 3 ? 'border-orange-400' : i === 4 ? 'border-red-400' : 'border-indigo-400'
+              }`}>
+                <s.icon className={`w-4 h-4 ${
+                  i === 0 ? 'text-purple-500' : i === 1 ? 'text-blue-500' : i === 2 ? 'text-emerald-500' : i === 3 ? 'text-orange-500' : i === 4 ? 'text-red-500' : 'text-indigo-500'
+                }`} />
+              </div>
+              <div className="flex-1 min-w-0 pt-1">
+                <div className="flex items-center gap-2">
+                  <span className={`text-[10px] font-bold text-white w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    i === 0 ? 'bg-purple-deep' : i === 1 ? 'bg-blue-600' : i === 2 ? 'bg-emerald-600' : i === 3 ? 'bg-orange-600' : i === 4 ? 'bg-red-600' : 'bg-indigo-600'
+                  }`}>{i + 1}</span>
+                  <h4 className="text-sm font-bold">{s.label}</h4>
+                </div>
+                <p className="text-xs text-gray-500 mt-0.5 ml-7">{s.desc}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Desktop: horizontal row */}
+        <div className="hidden lg:flex lg:justify-center lg:items-start gap-2">
+          {steps.map((s, i) => (
+            <div key={s.label} className="flex items-center gap-3">
               <motion.div
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.07 }}
-                className="flex flex-col items-center text-center w-full lg:w-[120px]"
+                className="flex flex-col items-center text-center w-[120px]"
               >
-                <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl border-2 ${colors[i].border} flex items-center justify-center mb-3 relative bg-white shadow-sm`}>
-                  <s.icon className={`w-6 h-6 md:w-7 md:h-7 ${colors[i].icon}`} />
-                  <div className={`absolute -top-2 -right-2 w-6 h-6 rounded-full ${colors[i].numBg} text-white text-[10px] font-bold flex items-center justify-center ring-2 ring-white`}>{i + 1}</div>
+                <div className={`w-16 h-16 rounded-2xl border-2 flex items-center justify-center mb-3 relative bg-white shadow-sm ${
+                  i === 0 ? 'border-purple-400' : i === 1 ? 'border-blue-400' : i === 2 ? 'border-emerald-400' : i === 3 ? 'border-orange-400' : i === 4 ? 'border-red-400' : 'border-indigo-400'
+                }`}>
+                  <s.icon className={`w-7 h-7 ${
+                    i === 0 ? 'text-purple-500' : i === 1 ? 'text-blue-500' : i === 2 ? 'text-emerald-500' : i === 3 ? 'text-orange-500' : i === 4 ? 'text-red-500' : 'text-indigo-500'
+                  }`} />
+                  <div className={`absolute -top-2 -right-2 w-6 h-6 rounded-full text-white text-[10px] font-bold flex items-center justify-center ring-2 ring-white ${
+                    i === 0 ? 'bg-purple-deep' : i === 1 ? 'bg-blue-600' : i === 2 ? 'bg-emerald-600' : i === 3 ? 'bg-orange-600' : i === 4 ? 'bg-red-600' : 'bg-indigo-600'
+                  }`}>{i + 1}</div>
                 </div>
-                <h4 className="text-sm md:text-base font-bold mb-0.5 md:mb-1.5">{s.label}</h4>
-                <p className="text-[10px] md:text-xs text-gray-500 font-medium">{s.desc}</p>
+                <h4 className="text-base font-bold mb-1.5">{s.label}</h4>
+                <p className="text-xs text-gray-500 font-medium">{s.desc}</p>
               </motion.div>
               {i < steps.length - 1 && (
-                <ArrowRight className="hidden lg:block w-5 h-5 flex-shrink-0 text-transparent fill-none"
+                <ArrowRight className="w-5 h-5 flex-shrink-0 text-transparent fill-none"
                   style={{ stroke: 'url(#arrowGrad)' }}
                 />
               )}
