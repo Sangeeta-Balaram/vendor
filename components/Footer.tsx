@@ -12,8 +12,8 @@ export default function Footer() {
   return (
     <footer className="bg-dark-bg text-white/70">
       <div className="max-w-[1280px] mx-auto px-6 py-16">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 md:gap-10 mb-12">
-          <div className="col-span-2 sm:col-span-3 md:col-span-1">
+        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-6 md:gap-10 mb-12">
+          <div className="sm:col-span-3 md:col-span-1">
             <div className="mb-4">
               <img src="/logo.svg" alt="The Revieree Studios" className="w-28 h-28 object-contain brightness-0 invert" />
             </div>
@@ -34,37 +34,37 @@ export default function Footer() {
               </a>
             </div>
           </div>
-          <div>
+          <div className="min-w-0">
             <h4 className={`text-[10px] font-semibold uppercase tracking-[.2em] mb-5 ${grad}`}>Creative</h4>
             <div className="flex flex-col gap-2.5">
               {creative.map(s => (
-                <Link key={s.slug} href={`/solutions/${s.slug}`} className="text-sm text-white/50 hover:text-white transition-colors">{s.title}</Link>
+                <Link key={s.slug} href={`/solutions/${s.slug}`} className="text-sm text-white/50 hover:text-white transition-colors break-words">{s.title}</Link>
               ))}
             </div>
           </div>
-          <div>
+          <div className="min-w-0">
             <h4 className={`text-[10px] font-semibold uppercase tracking-[.2em] mb-5 ${grad}`}>Technology</h4>
             <div className="flex flex-col gap-2.5">
               {tech.map(s => (
-                <Link key={s.slug} href={`/solutions/${s.slug}`} className="text-sm text-white/50 hover:text-white transition-colors">{s.title}</Link>
+                <Link key={s.slug} href={`/solutions/${s.slug}`} className="text-sm text-white/50 hover:text-white transition-colors break-words">{s.title}</Link>
               ))}
             </div>
           </div>
-          <div>
+          <div className="min-w-0">
             <h4 className={`text-[10px] font-semibold uppercase tracking-[.2em] mb-5 ${grad}`}>Company</h4>
             <div className="flex flex-col gap-2.5">
               {['How it works', 'Resources', 'Partner Program', 'Privacy Policy', 'Terms of Service'].map(s => (
-                <Link key={s} href={`/${s.toLowerCase().replace(/\s+/g, '-')}`} className="text-sm text-white/50 hover:text-white transition-colors">{s}</Link>
+                <Link key={s} href={`/${s.toLowerCase().replace(/\s+/g, '-')}`} className="text-sm text-white/50 hover:text-white transition-colors break-words">{s}</Link>
               ))}
             </div>
           </div>
-          <div>
+          <div className="min-w-0">
             <h4 className={`text-[10px] font-semibold uppercase tracking-[.2em] mb-5 ${grad}`}>Contact</h4>
-            <div className="flex flex-col gap-3 text-sm text-white/50">
+            <div className="flex flex-col gap-3 text-sm text-white/50 break-words">
               <a href="tel:+919156472904" className="hover:text-white transition-colors">+91 91564 72904</a>
-              <a href="mailto:sangeeta@thereviereestudios.in" className="hover:text-white transition-colors">sangeeta@thereviereestudios.in</a>
-              <a href="https://www.thereviereestudios.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">www.thereviereestudios.in</a>
-              <a href="https://www.google.com/maps/place/The+Revieree+Studios/@18.5642945,73.9164662,847m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3bc2c17b9b5d2a23:0x1c3ce55481fa183!8m2!3d18.5642894!4d73.9190411!16s%2Fg%2F11zb58qcx6" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Pune, India</a>
+              <a href="mailto:sangeeta@thereviereestudios.in" className="hover:text-white transition-colors break-all">sangeeta@thereviereestudios.in</a>
+              <a href="https://www.thereviereestudios.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors break-all">www.thereviereestudios.in</a>
+              <a href="https://www.google.com/maps/place/The+Revieree+Studios/@18.5642945,73.9164662,847m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3bc2c17b9b5d2a23:0x1c3ce55481fa183!8m2!3d18.5642894!4d73.9190411!16s%2Fg%2F11zb58qcx6" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors break-all">Pune, India</a>
             </div>
           </div>
         </div>
