@@ -65,12 +65,12 @@ export default function PartnerDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-        <div><h1 className="font-extrabold text-lg">Partner Portal</h1><p className="text-xs text-gray-400">Read-only access to your project data</p></div>
-        <div className="flex items-center gap-3">
-          <div className="text-right text-[10px] text-gray-400"><p>{data.partner.name}</p><p className="text-gray-300">{data.partner.email}</p></div>
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">{data.partner.name.charAt(0)}</div>
+    <div className="min-h-screen bg-gray-50 pb-16 lg:pb-0">
+      <header className="bg-white border-b border-gray-200 px-4 md:px-6 py-3 md:py-4 flex items-center justify-between gap-2">
+        <div className="min-w-0 flex-1"><h1 className="font-extrabold text-sm md:text-lg truncate">Partner Portal</h1><p className="text-[10px] md:text-xs text-gray-400 truncate">Read-only access to your project data</p></div>
+        <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
+          <div className="hidden sm:block text-right text-[10px] text-gray-400"><p className="truncate max-w-[120px]">{data.partner.name}</p><p className="text-gray-300 truncate max-w-[120px]">{data.partner.email}</p></div>
+          <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs md:text-sm flex-shrink-0">{data.partner.name.charAt(0)}</div>
         </div>
       </header>
 
@@ -82,13 +82,14 @@ export default function PartnerDashboard() {
           <a href="mailto:sangeeta@thereviereestudios.in" className="bg-white rounded-xl p-4 border border-gray-100 text-center hover:border-blue-200 transition-colors"><Mail className="w-5 h-5 text-gray-400 mx-auto mb-1" /><p className="text-[10px] text-gray-500">Contact Support</p></a>
         </div>
 
-        <div className="flex gap-1 mb-6 bg-white rounded-2xl p-1 border border-gray-100 overflow-x-auto [-webkit-overflow-scrolling:touch] snap-x snap-mandatory">
+        <div className="flex gap-1 mb-6 bg-white rounded-2xl p-1 border border-gray-100 overflow-x-auto [-webkit-overflow-scrolling:touch] snap-x snap-mandatory scrollbar-hide">
           {tabs.map(tab => {
             const Icon = tab.icon
             return (
-              <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-                className={`flex-1 min-w-[100px] flex items-center justify-center gap-1.5 py-2.5 text-xs font-medium rounded-xl transition-all whitespace-nowrap snap-start ${activeTab === tab.key ? 'bg-blue-50 text-blue-700 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}>
-                <Icon className="w-3.5 h-3.5 shrink-0" />{tab.label}
+              <button key={tab.key} onClick={() => { setActiveTab(tab.key); document.getElementById(`tab-${tab.key}`)?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }) }}
+                className={`flex-1 min-w-[90px] md:min-w-[100px] flex items-center justify-center gap-1.5 py-2.5 md:py-3 text-[10px] md:text-xs font-medium rounded-xl transition-all whitespace-nowrap snap-center ${activeTab === tab.key ? 'bg-blue-50 text-blue-700 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+                id={`tab-${tab.key}`}>
+                <Icon className="w-3 h-3 md:w-3.5 md:h-3.5 shrink-0" />{tab.label}
               </button>
             )
           })}

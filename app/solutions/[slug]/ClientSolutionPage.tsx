@@ -1009,6 +1009,7 @@ export default function SolutionClient({ slug }: { slug: string }) {
   const [customOpen, setCustomOpen] = useState(false)
   const [continueOpen, setContinueOpen] = useState(false)
   const [negotiateOpen, setNegotiateOpen] = useState(false)
+  const [mobileQuoteOpen, setMobileQuoteOpen] = useState(false)
   const [negotiatePrice, setNegotiatePrice] = useState(0)
   const [quoteNameOpen, setQuoteNameOpen] = useState(false)
   const [continueAfterQuote, setContinueAfterQuote] = useState(false)
@@ -1297,14 +1298,97 @@ export default function SolutionClient({ slug }: { slug: string }) {
         </div>
       </div>
 
-      <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} className="gradient-primary rounded-[32px] p-12 md:p-14 text-center mt-8">
-        <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-2">Ready to build?</h3>
+      <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} className="gradient-primary rounded-[32px] p-8 md:p-14 text-center mt-8 mb-24 lg:mb-8">
+        <h3 className="text-2xl md:text-4xl font-extrabold text-white mb-2">Ready to build?</h3>
         <p className="text-white/60 mb-6 max-w-[440px] mx-auto text-sm">Save your quote or continue to get a full proposal.</p>
         <div className="flex flex-wrap justify-center gap-3">
-              <button onClick={() => { setContinueAfterQuote(false); setQuoteNameOpen(true) }} className="px-6 py-2.5 text-sm font-semibold text-purple-deep bg-white rounded-full inline-flex items-center gap-1.5"><Download className="w-4 h-4" /> Save Quote</button>
+          <button onClick={() => { setContinueAfterQuote(false); setQuoteNameOpen(true) }} className="px-6 py-2.5 text-sm font-semibold text-purple-deep bg-white rounded-full inline-flex items-center gap-1.5"><Download className="w-4 h-4" /> Save Quote</button>
           <button onClick={() => { setNegotiatePrice(totalPrice); setContinueAfterQuote(true); setQuoteNameOpen(true) }} className="px-6 py-2.5 text-sm font-semibold text-white border-2 border-white/30 rounded-full">Continue →</button>
         </div>
       </motion.div>
+
+      {/* Mobile quote drawer */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40">
+        <AnimatePresence>
+          {!mobileQuoteOpen && (
+            <motion.button initial={{ y: 100 }} animate={{ y: 0 }} exit={{ y: 100 }} onClick={() => setMobileQuoteOpen(true)}
+              className="w-full gradient-primary text-white px-5 py-3 flex items-center justify-between shadow-2xl">
+              <span className="text-sm font-semibold">View Quote</span>
+              <span className="text-sm font-extrabold">{formatINR(totalPrice)}</span>
+            </motion.button>
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {mobileQuoteOpen && (
+            <motion.div initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="bg-white rounded-t-[24px] shadow-2xl border-t border-gray-100 max-h-[70vh] overflow-y-auto">
+              <div className="sticky top-0 bg-white border-b border-gray-100 px-5 py-3 flex items-center justify-between z-10">
+                <span className="text-sm font-extrabold">Your Quote</span>
+                <button onClick={() => setMobileQuoteOpen(false)} className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center"><X className="w-4 h-4 text-gray-500" /></button>
+              </div>
+              <div className="p-5 space-y-3">
+                {selectedPlans.map(sp => {
+                  const solTT = solutions.find(s => s.slug === sp.slug)?.title || sp.slug
+                  const solPkgs = solutionPackages[sp.slug] || defaultPackages
+                  const spPrice = solPkgs.find(p => p.name === sp.name)?.price || 0
+                  return (
+                    <div key={sp.slug} className="flex justify-between items-center py-2 border-b border-gray-50 last:border-0">
+                      <span className="text-sm font-semibold">{sp.name} ({solTT})</span>
+                      <span className="text-sm font-bold">{formatINR(spPrice)}</span>
+                    </div>
+                  )
+                })}
+                {selectedInQuote.map(s => (
+                  <div key={s.id} className="flex justify-between items-center py-2 border-b border-gray-50 last:border-0">
+                    <span className="text-xs text-gray-500">{s.name}</span>
+                    <span className="text-xs text-gray-400">{formatINR(s.price)}</span>
+                  </div>
+                ))}
+                <div className="pt-3 border-t border-gray-100 space-y-1">
+                  {hasAnyPlan && <div className="flex justify-between text-sm"><span className="font-semibold">Total plans</span><span className="font-bold">{formatINR(allPlanPrices)}</span></div>}
+                  <div className="flex justify-between text-xs text-gray-400"><span>Selected services</span><span>{formatINR(quote.subtotal)}</span></div>
+                  {!hasAnyPlan && quote.discount > 0 && <div className="flex justify-between text-[10px] text-green-600"><span>Discount (10%)</span><span>-{formatINR(quote.discount)}</span></div>}
+                  <div className="flex justify-between text-[10px] text-gray-400"><span>GST (18%)</span><span>{formatINR(hasAnyPlan ? gstOnTotal : quote.gst)}</span></div>
+                  <div className="flex justify-between text-lg font-extrabold pt-2 border-t border-gray-200"><span>Total</span><span className="gradient-text">{formatINR(totalPrice)}</span></div>
+                </div>
+                {negotiateOpen && (
+                  <div className="p-4 rounded-xl bg-orange-50 border border-orange-200">
+                    <p className="text-xs font-semibold text-orange-700 mb-2">{hasAnyPlan ? `Suggest a price for extra services` : 'Suggest your price (min 20% off)'}</p>
+                    <div className="flex items-center gap-2">
+                      <button onClick={() => setNegotiatePrice(p => Math.max(minPrice, p - 1000))} className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center flex-shrink-0"><Minus className="w-4 h-4" /></button>
+                      <div className="flex-1 text-center"><span className="text-lg font-extrabold text-orange-700">{formatINR(negotiatePrice)}</span></div>
+                      <button onClick={() => setNegotiatePrice(p => Math.min(maxPrice, p + 1000))} className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center flex-shrink-0"><Plus className="w-4 h-4" /></button>
+                    </div>
+                    <input type="range" min={minPrice} max={maxPrice} step={500} value={negotiatePrice} onChange={e => setNegotiatePrice(Number(e.target.value))} className="w-full mt-2 accent-orange-500" />
+                    <button onClick={() => {
+                      setNegotiateOpen(false)
+                      setMobileQuoteOpen(false)
+                      const negotiatedTotal = hasAnyPlan ? allPlanPrices + negotiatePrice : negotiatePrice
+                      window.open(`https://wa.me/919156472904?text=I'd%20like%20to%20negotiate%20the%20price%20to%20${encodeURIComponent(formatINR(negotiatedTotal))}%20for%20${encodeURIComponent(sol.title)}`, '_blank')
+                      fetch('/api/negotiations', {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name: clientName || 'Unknown', email: clientEmail || '', phone: clientPhone || '', solution: sol.title, plan: selectedPlans.map(sp => sp.name).join(' + '), original_total: totalPrice, negotiated_total: negotiatedTotal })
+                      }).catch(() => {})
+                    }} className="w-full mt-2 py-2 text-xs font-semibold text-white bg-orange-500 rounded-full">Send via WhatsApp</button>
+                  </div>
+                )}
+                <div className="flex flex-col gap-2 pt-2">
+                  <button onClick={() => { setNegotiatePrice(hasAnyPlan ? servicesPortion : totalPrice); setContinueAfterQuote(true); setQuoteNameOpen(true) }} className="w-full py-3 text-sm font-semibold text-white gradient-primary rounded-full flex items-center justify-center gap-1.5"><Zap className="w-4 h-4" /> Continue</button>
+                  <button onClick={() => { setNegotiatePrice(hasAnyPlan ? servicesPortion : totalPrice); setNegotiateOpen(o => !o) }} className="w-full py-3 text-sm font-semibold text-gray-600 border border-gray-200 rounded-full">Negotiate</button>
+                  <div className="flex gap-2 pt-1">
+                    <a href={`https://wa.me/919156472904?text=I'm%20interested%20in%20${encodeURIComponent(sol.title)}%20(${encodeURIComponent(selectedPlans.map(sp => `${sp.name}`).join(' + ') || 'No plan')}%20-%20${encodeURIComponent(formatINR(totalPrice))})`} target="_blank" rel="noopener noreferrer" className="flex-1 py-2 text-xs font-medium text-white bg-green-500 rounded-full flex items-center justify-center gap-1"><MessageCircle className="w-3.5 h-3.5" /> WhatsApp</a>
+                    <a href="tel:+919156472904" className="flex-1 py-2 text-xs font-medium text-white bg-blue-500 rounded-full flex items-center justify-center gap-1"><Phone className="w-3.5 h-3.5" /> Call</a>
+                    <a href={`mailto:sangeeta@thereviereestudios.in?subject=${encodeURIComponent(sol.title)}%20-%20${encodeURIComponent(selectedPlans.map(sp => `${sp.name}`).join('+'))}%20Plan`} className="flex-1 py-2 text-xs font-medium text-white bg-red-500 rounded-full flex items-center justify-center gap-1"><Mail className="w-3.5 h-3.5" /> Email</a>
+                  </div>
+                  <div className="text-center pt-2">
+                    <a href="https://calendly.com/sangeeta-thereviereestudios/build-a-brand" target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-purple-deep hover:underline">Schedule a free call →</a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
       <QuoteNameModal open={quoteNameOpen} onClose={() => setQuoteNameOpen(false)} onConfirm={handleDownloadQuote}
         clientName={clientName} companyName={companyName} clientEmail={clientEmail} clientPhone={clientPhone}
         setClientName={setClientName} setCompanyName={setCompanyName} setClientEmail={setClientEmail} setClientPhone={setClientPhone}

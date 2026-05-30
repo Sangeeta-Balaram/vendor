@@ -36,12 +36,12 @@ export default function QuoteBuilder() {
       <div className="max-w-[1100px] mx-auto bg-gradient-to-br from-[#0F172A] to-[#050816] rounded-[24px] md:rounded-[32px] p-5 md:p-14">
         <div className="grid md:grid-cols-2 gap-4 md:gap-6">
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <h2 className="text-[28px] md:text-[32px] font-extrabold text-white tracking-[-.03em] leading-[1.1] mb-2">
+            <h2 className="text-[24px] sm:text-[28px] md:text-[32px] font-extrabold text-white tracking-[-.03em] leading-[1.1] mb-2">
               Build your package.<br />See your price.<br />
               <span className="inline-block bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 bg-clip-text text-transparent">Instantly.</span>
             </h2>
-            <p className="text-xs text-white/40 mb-5">Toggle services to build the perfect package for your client.</p>
-            <div className="space-y-3">
+            <p className="text-xs text-white/40 mb-4 md:mb-5">Toggle services to build the perfect package for your client.</p>
+            <div className="space-y-2 md:space-y-3">
               {[
                 'Select the services your client needs',
                 'Get an instant AI-recommended quote',

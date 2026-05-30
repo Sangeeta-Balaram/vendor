@@ -80,11 +80,11 @@ export default function Navbar() {
         {open && (
           <div className="lg:hidden bg-white border-t border-gray-100 overflow-hidden">
             <div className="px-6 py-4 flex flex-col gap-3">
-              {!isHome && <Link href="/" className="text-sm font-medium">Home</Link>}
-              <a href="/#how-it-works" className="text-sm font-medium">How it works</a>
-              <a href="/#solutions" className="text-sm font-medium">Solutions</a>
-              <Link href="/resources" className="text-sm font-medium">Resources</Link>
-              <a href="/#contact" className="text-sm font-medium">Contact</a>
+              {!isHome && <Link href="/" onClick={() => setOpen(false)} className="text-sm font-medium">Home</Link>}
+              <a href="/#how-it-works" onClick={() => setOpen(false)} className="text-sm font-medium">How it works</a>
+              <a href="/#solutions" onClick={() => setOpen(false)} className="text-sm font-medium">Solutions</a>
+              <Link href="/resources" onClick={() => setOpen(false)} className="text-sm font-medium">Resources</Link>
+              <a href="/#contact" onClick={() => setOpen(false)} className="text-sm font-medium">Contact</a>
               <div className="flex gap-3 pt-3 border-t border-gray-100">
                 {mobilePartnerBtn}
               </div>
