@@ -25,7 +25,7 @@ export default function RootLayout({
         className="min-h-screen overflow-x-hidden bg-bg font-sans antialiased text-gray-900"
         suppressHydrationWarning
       >
-        <div className="flex min-h-screen flex-col">
+        <div className="flex min-h-screen flex-col pt-[70px] lg:pt-[100px]">
           <Navbar />
 
           <main className="flex-1 w-full">
