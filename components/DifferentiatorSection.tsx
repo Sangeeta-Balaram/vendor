@@ -30,7 +30,7 @@ export default function DifferentiatorSection() {
             >
               <div className="absolute inset-0 bg-gradient-to-r from-purple-500/[0.04] to-transparent" />
               <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-purple-800 to-purple-500" />
-              <div className="flex items-center gap-3 mb-4 relative">
+              <div className="flex items-center justify-center md:justify-start gap-3 mb-4 relative">
                 <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-700 to-purple-900 flex items-center justify-center">
                   <Palette className="w-4 h-4 text-white" />
                 </div>
@@ -69,7 +69,7 @@ export default function DifferentiatorSection() {
             >
               <div className="absolute inset-0 bg-gradient-to-l from-blue-500/[0.04] to-transparent" />
               <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-blue-500 to-blue-800" />
-              <div className="flex items-center justify-end gap-3 mb-4 relative">
+              <div className="flex items-center justify-center md:justify-end gap-3 mb-4 relative">
                 <h3 className="text-sm font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">Technology Power</h3>
                 <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-700 to-blue-900 flex items-center justify-center">
                   <Cpu className="w-4 h-4 text-white" />
