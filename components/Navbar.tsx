@@ -31,6 +31,13 @@ export default function Navbar() {
     }
   }, [pathname])
 
+  useEffect(() => {
+    if (!open) return
+    const onScroll = () => setOpen(false)
+    window.addEventListener('scroll', onScroll, { once: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [open])
+
   const handleLogout = useCallback(async () => {
     await fetch('/api/partner/logout', { method: 'POST' })
     setPartner(null)
