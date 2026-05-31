@@ -42,6 +42,7 @@ export default function PartnerLogin() {
           {err && <p className="text-xs text-red-500">{err}</p>}
           <button type="submit" disabled={loading || !name.trim() || phone.length !== 10}
             className="w-full py-2.5 text-sm font-semibold text-white bg-blue-700 rounded-xl hover:bg-blue-800 disabled:opacity-50 transition-all">{loading ? 'Checking...' : 'Track My Projects'}</button>
+          <p className="text-xs text-gray-400 text-center mt-4">Don't have an account? <a href="/" className="text-blue-600 hover:underline font-medium">Take me to the website</a></p>
         </div>
       </form>
     </div>
