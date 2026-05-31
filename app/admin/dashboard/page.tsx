@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Users, CalendarCheck, FileText, Eye, Handshake, TrendingUp, Activity, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 
@@ -22,10 +23,14 @@ const cards = [
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<Stats | null>(null)
+  const router = useRouter()
 
   useEffect(() => {
-    fetch('/api/admin/stats').then(r => r.json()).then(setStats)
-  }, [])
+    fetch('/api/admin/stats').then(r => {
+      if (!r.ok) { router.push('/partner/login'); return }
+      return r.json()
+    }).then(d => { if (d) setStats(d) })
+  }, [router])
 
   if (!stats) return <div className="flex items-center justify-center h-64"><div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" /></div>
 

@@ -27,7 +27,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   useEffect(() => {
     fetch('/api/admin/me').then(r => {
       if (r.ok) setAuthed(true)
-      else router.push('/admin/login')
+      else router.push('/partner/login')
     }).finally(() => setChecking(false))
   }, [router])
 
