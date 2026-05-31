@@ -57,20 +57,20 @@ export default function ProcessTimeline() {
               <motion.div
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.07 }}
-                className="flex flex-col items-center text-center w-[120px]"
+                className="flex flex-col items-center text-center w-[100px] lg:w-[120px]"
               >
-                <div className={`w-16 h-16 rounded-2xl border-2 flex items-center justify-center mb-3 relative bg-white shadow-sm ${
+                <div className={`w-14 h-14 lg:w-16 lg:h-16 rounded-2xl border-2 flex items-center justify-center mb-3 relative bg-white shadow-sm ${
                   i === 0 ? 'border-purple-400' : i === 1 ? 'border-blue-400' : i === 2 ? 'border-emerald-400' : i === 3 ? 'border-orange-400' : i === 4 ? 'border-red-400' : 'border-indigo-400'
                 }`}>
-                  <s.icon className={`w-7 h-7 ${
+                  <s.icon className={`w-6 h-6 lg:w-7 lg:h-7 ${
                     i === 0 ? 'text-purple-500' : i === 1 ? 'text-blue-500' : i === 2 ? 'text-emerald-500' : i === 3 ? 'text-orange-500' : i === 4 ? 'text-red-500' : 'text-indigo-500'
                   }`} />
-                  <div className={`absolute -top-2 -right-2 w-6 h-6 rounded-full text-white text-[10px] font-bold flex items-center justify-center ring-2 ring-white ${
+                  <div className={`absolute -top-2 -right-2 w-5 h-5 lg:w-6 lg:h-6 rounded-full text-white text-[9px] lg:text-[10px] font-bold flex items-center justify-center ring-2 ring-white ${
                     i === 0 ? 'bg-purple-deep' : i === 1 ? 'bg-blue-600' : i === 2 ? 'bg-emerald-600' : i === 3 ? 'bg-orange-600' : i === 4 ? 'bg-red-600' : 'bg-indigo-600'
                   }`}>{i + 1}</div>
                 </div>
-                <h4 className="text-base font-bold mb-1.5">{s.label}</h4>
-                <p className="text-xs text-gray-500 font-medium">{s.desc}</p>
+                <h4 className="text-sm lg:text-base font-bold mb-1.5">{s.label}</h4>
+                <p className="text-[11px] lg:text-xs text-gray-500 font-medium">{s.desc}</p>
               </motion.div>
               {i < steps.length - 1 && (
                 <ArrowRight className="w-5 h-5 flex-shrink-0 text-transparent fill-none"
