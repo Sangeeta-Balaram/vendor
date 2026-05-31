@@ -23,10 +23,10 @@ export default function PartnerDashboard() {
   const router = useRouter()
 
   useEffect(() => {
-   fetch('/api/partner/me').then(r => {
-      if (!r.ok) { router.push('/partner/login'); return }
-      return r.json()
-    }).then(d => { setData(d); setLoading(false) }).catch(() => router.push('/partner/login'))
+    fetch('/api/partner/me').then(r => r.json()).then(d => {
+      if (!d.loggedIn) { router.push('/partner/login'); return }
+      setData(d); setLoading(false)
+    }).catch(() => router.push('/partner/login'))
   }, [router])
 
   if (loading) return <div className="min-h-screen flex items-center justify-center bg-gray-50"><div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>

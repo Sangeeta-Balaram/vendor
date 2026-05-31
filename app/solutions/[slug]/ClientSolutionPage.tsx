@@ -1027,10 +1027,10 @@ export default function SolutionClient({ slug }: { slug: string }) {
   const [accountExists, setAccountExists] = useState<{ exists: boolean; email: string } | null>(null)
   useEffect(() => {
     fetch('/api/partner/me').then(r => r.json()).then(d => {
-      if (d.loggedIn) {
-        setClientName(d.name)
-        setClientEmail(d.email || '')
-        setClientPhone(d.phone)
+      if (d.loggedIn && d.partner) {
+        setClientName(d.partner.name || '')
+        setClientEmail(d.partner.email || '')
+        setClientPhone(d.partner.phone || '')
       }
     }).catch(() => {})
   }, [])
