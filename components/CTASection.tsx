@@ -11,7 +11,7 @@ export default function CTASection() {
           className="gradient-primary rounded-[32px] p-10 md:p-14 text-center"
         >
           <h2 className="text-[36px] md:text-[44px] font-extrabold text-white tracking-[-.03em] mb-3">Ready to grow your business?</h2>
-          <p className="text-white/70 text-lg mb-8 max-w-[480px] mx-auto">Join 500+ partners already building solutions with Revieree.</p>
+          <p className="text-white/70 text-lg mb-8 max-w-[480px] mx-auto">Join 20+ partners already building solutions with Revieree.</p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link href="/solutions" className="px-7 py-3 text-sm font-semibold text-purple-deep bg-white rounded-full hover:shadow-xl transition-all duration-300">
               Explore Solutions
