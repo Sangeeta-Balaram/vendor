@@ -13,7 +13,7 @@ const steps = [
 
 export default function ProcessTimeline() {
   return (
-    <section id="how-it-works" className="pt-12 md:pt-16 pb-16 md:pb-24 px-4 sm:px-6 bg-white">
+    <section id="how-it-works" className="pt-12 md:pt-16 pb-16 md:pb-24 px-4 sm:px-6 md:px-12 lg:px-6 bg-white">
       <div className="max-w-[900px] mx-auto text-center mb-8 md:mb-20">
         <h2 className="text-[32px] md:text-[48px] font-extrabold tracking-[-.03em] mb-4">How it works</h2>
         <p className="text-gray-400 text-sm md:text-lg">From selection to delivery in 6 simple steps.</p>
