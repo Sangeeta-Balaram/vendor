@@ -20,7 +20,7 @@ export default function ProcessTimeline() {
       </div>
       <div className="max-w-[1200px] mx-auto">
         {/* Mobile: vertical timeline */}
-        <div className="lg:hidden max-w-[400px] mx-auto">
+        <div className="md:hidden max-w-[400px] mx-auto">
           {steps.map((s, i) => (
             <motion.div key={s.label}
               initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -50,8 +50,8 @@ export default function ProcessTimeline() {
           ))}
         </div>
 
-        {/* Desktop: horizontal row */}
-        <div className="hidden lg:flex lg:justify-center lg:items-start gap-2">
+        {/* Desktop/tablet: horizontal row */}
+        <div className="hidden md:flex md:justify-center md:items-start gap-2">
           {steps.map((s, i) => (
             <div key={s.label} className="flex items-center gap-3">
               <motion.div
