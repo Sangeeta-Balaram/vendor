@@ -51,7 +51,7 @@ export default function ProcessTimeline() {
         </div>
 
         {/* Desktop/tablet: horizontal row */}
-        <div className="hidden md:flex md:justify-center md:items-start gap-2">
+        <div className="hidden md:flex md:justify-center md:items-start gap-2 md:px-8">
           {steps.map((s, i) => (
             <div key={s.label} className="flex items-center gap-3">
               <motion.div
