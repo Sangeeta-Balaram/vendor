@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Plus, Save, Trash2, ExternalLink } from 'lucide-react'
 
 interface Resource {
@@ -20,14 +21,18 @@ export default function AdminResources() {
   const [adding, setAdding] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const router = useRouter()
 
-  const fetchResources = () => fetch('/api/admin/resources').then(r => r.json()).then(d => {
+  const fetchResources = () => fetch('/api/admin/resources').then(r => {
+    if (!r.ok) { router.push('/partner/login'); throw new Error('unauthorized') }
+    return r.json()
+  }).then(d => {
     setStaticResources(d.static || [])
     setDbResources(d.db || [])
     setLoading(false)
   })
 
-  useEffect(() => { fetchResources() }, [])
+  useEffect(() => { fetchResources() }, [router])
 
   const merged = staticResources.map(sr => dbResources.find(r => r.slug === sr.slug) || sr)
   const extra = dbResources.filter(r => !staticResources.find(s => s.slug === r.slug))

@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Search, Check, X, FileText, ArrowRight } from 'lucide-react'
 
 const statusColors: Record<string, string> = { draft: 'bg-gray-100 text-gray-600', sent: 'bg-blue-100 text-blue-700', signed: 'bg-green-100 text-green-700', completed: 'bg-purple-100 text-purple-700', cancelled: 'bg-red-100 text-red-700' }
@@ -11,9 +12,13 @@ export default function AdminAgreements() {
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
+  const router = useRouter()
 
-  const fetchData = () => fetch('/api/admin/agreements').then(r => r.json()).then(d => { setData(d); setLoading(false) })
-  useEffect(() => { fetchData() }, [])
+  const fetchData = () => fetch('/api/admin/agreements').then(r => {
+    if (!r.ok) { router.push('/partner/login'); throw new Error('unauthorized') }
+    return r.json()
+  }).then(d => { setData(d); setLoading(false) })
+  useEffect(() => { fetchData() }, [router])
 
   const updateStatus = async (id: number, status: string) => {
     const body: any = { id, status }

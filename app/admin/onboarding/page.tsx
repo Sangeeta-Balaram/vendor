@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { CheckCircle, Circle, Users } from 'lucide-react'
 
 interface Stage { id: number; name: string; sort_order: number }
@@ -10,9 +11,13 @@ export default function AdminOnboarding() {
   const [stages, setStages] = useState<Stage[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedClient, setSelectedClient] = useState<number | null>(null)
+  const router = useRouter()
 
-  const fetchData = () => fetch('/api/admin/onboarding').then(r => r.json()).then(d => { setOnboarding(d.onboarding); setStages(d.stages); setLoading(false) })
-  useEffect(() => { fetchData() }, [])
+  const fetchData = () => fetch('/api/admin/onboarding').then(r => {
+    if (!r.ok) { router.push('/partner/login'); throw new Error('unauthorized') }
+    return r.json()
+  }).then(d => { setOnboarding(d.onboarding); setStages(d.stages); setLoading(false) })
+  useEffect(() => { fetchData() }, [router])
 
   const toggleStage = async (id: number, completed: boolean) => {
     await fetch('/api/admin/onboarding', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, completed: !completed }) })

@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Search, Mail, Phone, MessageSquare, Save, X, Pencil } from 'lucide-react'
 
 export default function AdminContacts() {
@@ -10,9 +11,13 @@ export default function AdminContacts() {
   const [editing, setEditing] = useState<number | null>(null)
   const [editForm, setEditForm] = useState<any>({})
   const [saving, setSaving] = useState(false)
+  const router = useRouter()
 
-  const fetchData = () => fetch('/api/admin/contacts').then(r => r.json()).then(d => { setData(d); setLoading(false) })
-  useEffect(() => { fetchData() }, [])
+  const fetchData = () => fetch('/api/admin/contacts').then(r => {
+    if (!r.ok) { router.push('/partner/login'); throw new Error('unauthorized') }
+    return r.json()
+  }).then(d => { setData(d); setLoading(false) })
+  useEffect(() => { fetchData() }, [router])
 
   const filtered = data.filter((r: any) => {
     if (search && !r.name?.toLowerCase().includes(search.toLowerCase()) && !r.email?.toLowerCase().includes(search.toLowerCase())) return false

@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Save, RefreshCw, Search } from 'lucide-react'
 
 interface ServiceItem { id: string; name: string; price: number }
@@ -12,19 +13,20 @@ export default function AdminServices() {
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [solutionFilter, setSolutionFilter] = useState<string>('all')
+  const router = useRouter()
 
   useEffect(() => {
     Promise.all([
-      fetch('/api/admin/services-tree').then(r => r.json()),
-      fetch('/api/admin/prices').then(r => r.json()),
+      fetch('/api/admin/services-tree').then(r => r.ok ? r.json() : Promise.reject()),
+      fetch('/api/admin/prices').then(r => r.ok ? r.json() : Promise.reject()),
     ]).then(([tree, overridesData]) => {
       setServices(tree)
       const m: Record<string, number> = {}
       for (const r of overridesData) m[r.id] = r.price
       setOverrides(m)
       setLoading(false)
-    })
-  }, [])
+    }).catch(() => router.push('/partner/login'))
+  }, [router])
 
   const price = (id: string) => overrides[id] !== undefined ? overrides[id] : services.find(s => s.id === id)?.price || 0
   const setPrice = (id: string, val: number) => setOverrides(prev => ({ ...prev, [id]: val }))

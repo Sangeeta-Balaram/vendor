@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Search, ExternalLink, ChevronDown, ChevronRight, User } from 'lucide-react'
 
 export default function AdminQuotes() {
@@ -7,10 +8,14 @@ export default function AdminQuotes() {
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
+  const router = useRouter()
 
   useEffect(() => {
-    fetch('/api/admin/quotes').then(r => r.json()).then(d => { setData(d); setLoading(false) })
-  }, [])
+    fetch('/api/admin/quotes').then(r => {
+      if (!r.ok) { router.push('/partner/login'); return }
+      return r.json()
+    }).then(d => { if (d) { setData(d); setLoading(false) } })
+  }, [router])
 
   const filtered = data.filter((r: any) =>
     !search || r.name?.toLowerCase().includes(search.toLowerCase()) || r.email?.toLowerCase().includes(search.toLowerCase()) || r.solution?.toLowerCase().includes(search.toLowerCase())

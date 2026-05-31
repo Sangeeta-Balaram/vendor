@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Search, Check, X, MessageSquare } from 'lucide-react'
 
 export default function AdminNegotiations() {
@@ -7,9 +8,13 @@ export default function AdminNegotiations() {
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
+  const router = useRouter()
 
-  const fetchData = () => fetch('/api/admin/negotiations').then(r => r.json()).then(d => { setData(d); setLoading(false) })
-  useEffect(() => { fetchData() }, [])
+  const fetchData = () => fetch('/api/admin/negotiations').then(r => {
+    if (!r.ok) { router.push('/partner/login'); throw new Error('unauthorized') }
+    return r.json()
+  }).then(d => { setData(d); setLoading(false) })
+  useEffect(() => { fetchData() }, [router])
 
   const updateStatus = async (id: number, status: string) => {
     await fetch('/api/admin/negotiations', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, status }) })

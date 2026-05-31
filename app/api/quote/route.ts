@@ -22,7 +22,7 @@ const quoteSchema = z.object({
   discount: z.number().min(0).optional().nullable(),
   gst: z.number().min(0),
   total: z.number().min(0),
-  proposalPdf: z.string().max(2000000).optional().nullable(),
+  proposalPdf: z.string().max(5000000).optional().nullable(),
 })
 
 export async function POST(req: Request) {

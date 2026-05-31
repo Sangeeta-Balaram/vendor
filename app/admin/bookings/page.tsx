@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Search, Calendar } from 'lucide-react'
 
 export default function AdminBookings() {
@@ -7,10 +8,14 @@ export default function AdminBookings() {
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [tab, setTab] = useState<'list' | 'calendar'>('calendar')
+  const router = useRouter()
 
   useEffect(() => {
-    fetch('/api/admin/bookings').then(r => r.json()).then(d => { setData(d); setLoading(false) })
-  }, [])
+    fetch('/api/admin/bookings').then(r => {
+      if (!r.ok) { router.push('/partner/login'); return }
+      return r.json()
+    }).then(d => { if (d) { setData(d); setLoading(false) } })
+  }, [router])
 
   const filtered = data.filter((r: any) =>
     !search || r.name?.toLowerCase().includes(search.toLowerCase()) || r.email?.toLowerCase().includes(search.toLowerCase())
