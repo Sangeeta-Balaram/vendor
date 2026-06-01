@@ -1,9 +1,9 @@
 'use client'
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, Check, ChevronDown, Zap, Phone, MessageCircle, Mail, TrendingUp, Palette, Globe, Bot, Package, HelpCircle, Clapperboard, Image, Printer, Settings, Download, Minus, Plus, X } from 'lucide-react'
-import { solutions, solutionServiceTree, formatINR, formatPDFCurrency, calcQuote, getServiceInfo, getServiceDuration, ganttColors, getServiceAbout, getServiceIncluded, getServiceExcluded, getServiceStages } from '@/lib/pricing'
+import { solutions, solutionServiceTree, formatINR, formatPDFCurrency, getServiceInfo, getServiceDuration, ganttColors, getServiceAbout, getServiceIncluded, getServiceExcluded, getServiceStages } from '@/lib/pricing'
 import type { SolutionServiceGroup, SubService } from '@/lib/pricing'
 
 const icons: Record<string, React.ReactNode> = {
@@ -753,9 +753,10 @@ async function downloadQuote(items: { id: string; name: string; price: number }[
   return doc.output('datauristring')
 }
 
-function ServiceCard({ g, selected, onToggle }: { g: SolutionServiceGroup; selected: string[]; onToggle: (id: string) => void }) {
-  if (g.subServices) return <AccordionGroup g={g} selected={selected} onToggle={onToggle} />
+function ServiceCard({ g, selected, onToggle, priceOverrides }: { g: SolutionServiceGroup; selected: string[]; onToggle: (id: string) => void; priceOverrides?: Record<string, number> }) {
+  if (g.subServices) return <AccordionGroup g={g} selected={selected} onToggle={onToggle} priceOverrides={priceOverrides} />
   const sel = selected.includes(g.id)
+  const eff = (id: string) => priceOverrides?.[id] !== undefined ? priceOverrides[id] : getServiceInfo(id)?.price || 0
   return (
     <motion.div key={g.id} layout onClick={() => onToggle(g.id)}
       className={`rounded-2xl p-4 cursor-pointer border transition-all duration-200 ${sel ? 'border-purple-500 bg-purple-50/40 shadow-md shadow-purple-500/8' : 'border-gray-100 bg-white hover:border-gray-200'}`}>
@@ -768,14 +769,15 @@ function ServiceCard({ g, selected, onToggle }: { g: SolutionServiceGroup; selec
           {sel ? <X className="w-3 h-3 text-white" /> : <Plus className="w-3 h-3 text-gray-300" />}
         </div>
       </div>
-      <span className="text-sm font-bold">{formatINR(g.price)}</span>
+      <span className="text-sm font-bold">{formatINR(eff(g.id))}</span>
     </motion.div>
   )
 }
 
-function AccordionGroup({ g, selected, onToggle }: { g: SolutionServiceGroup; selected: string[]; onToggle: (id: string) => void }) {
+function AccordionGroup({ g, selected, onToggle, priceOverrides }: { g: SolutionServiceGroup; selected: string[]; onToggle: (id: string) => void; priceOverrides?: Record<string, number> }) {
   const [open, setOpen] = useState(false)
-  const subTotal = g.subServices!.reduce((s, sub) => s + (selected.includes(sub.id) ? sub.price : 0), 0)
+  const eff = (id: string) => priceOverrides?.[id] !== undefined ? priceOverrides[id] : getServiceInfo(id)?.price || 0
+  const subTotal = g.subServices!.reduce((s, sub) => s + (selected.includes(sub.id) ? eff(sub.id) : 0), 0)
   return (
     <motion.div layout className="rounded-2xl border border-gray-100 bg-white overflow-hidden">
       <div onClick={() => setOpen(!open)} className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50/50 transition-colors">
@@ -793,7 +795,7 @@ function AccordionGroup({ g, selected, onToggle }: { g: SolutionServiceGroup; se
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="border-t border-gray-50">
             <div className="p-5 grid grid-cols-2 gap-3">
               {g.subServices!.map(sub => (
-                <SubServiceRow key={sub.id} sub={sub} selected={selected} onToggle={onToggle} />
+                <SubServiceRow key={sub.id} sub={sub} selected={selected} onToggle={onToggle} priceOverrides={priceOverrides} />
               ))}
             </div>
           </motion.div>
@@ -859,8 +861,9 @@ function CustomModal({ open, onClose, solTitle }: { open: boolean; onClose: () =
   )
 }
 
-function SubServiceRow({ sub, selected, onToggle, slug: solSlug }: { sub: SubService; selected: string[]; onToggle: (id: string) => void; slug?: string }) {
+function SubServiceRow({ sub, selected, onToggle, slug: solSlug, priceOverrides }: { sub: SubService; selected: string[]; onToggle: (id: string) => void; slug?: string; priceOverrides?: Record<string, number> }) {
   const sel = selected.includes(sub.id)
+  const eff = (id: string) => priceOverrides?.[id] !== undefined ? priceOverrides[id] : getServiceInfo(id)?.price || 0
   if (sub.price === 0) {
     return (
       <div onClick={() => window.open('https://calendly.com/sangeeta-thereviereestudios/build-a-brand', '_blank')}
@@ -890,7 +893,7 @@ function SubServiceRow({ sub, selected, onToggle, slug: solSlug }: { sub: SubSer
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2">
             <span className="text-xs font-medium text-gray-700 truncate">{sub.name}</span>
-            <span className="text-xs font-bold flex-shrink-0">{formatINR(sub.price)}</span>
+            <span className="text-xs font-bold flex-shrink-0">{formatINR(eff(sub.id))}</span>
           </div>
           <p className="text-[10px] text-gray-400 leading-tight mt-0.5">{sub.desc}</p>
         </div>
@@ -1017,6 +1020,17 @@ export default function SolutionClient({ slug }: { slug: string }) {
   const [companyName, setCompanyName] = useState('')
   const [clientEmail, setClientEmail] = useState('')
   const [clientPhone, setClientPhone] = useState('')
+  const [priceOverrides, setPriceOverrides] = useState<Record<string, number>>({})
+
+  // Fetch price overrides from admin panel
+  useEffect(() => {
+    fetch('/api/price-overrides').then(r => r.json()).then(d => setPriceOverrides(d || {})).catch(() => {})
+  }, [])
+
+  const effPrice = useCallback((id: string) => {
+    if (priceOverrides[id] !== undefined) return priceOverrides[id]
+    return getServiceInfo(id)?.price || 0
+  }, [priceOverrides])
 
   // Track page view
   useEffect(() => {
@@ -1053,7 +1067,12 @@ export default function SolutionClient({ slug }: { slug: string }) {
   // Persist selected services and plans across page navigation
   useEffect(() => { try { localStorage.setItem('trs_selected', JSON.stringify(selected)) } catch {} }, [selected])
   useEffect(() => { try { localStorage.setItem('trs_plans', JSON.stringify(selectedPlans)) } catch {} }, [selectedPlans])
-  const quote = calcQuote(selected)
+  const quote = useMemo(() => {
+    const subtotal = selected.reduce((s, id) => s + effPrice(id), 0)
+    const discount = selected.length >= 3 ? Math.round(subtotal * 0.1) : 0
+    const gst = Math.round((subtotal - discount) * 0.18)
+    return { subtotal, discount, gst, total: subtotal - discount + gst }
+  }, [selected, effPrice])
 
   // Helpers for multi-solution plans
   const currentPlan = selectedPlans.find(p => p.slug === slug)?.name || ''
@@ -1118,7 +1137,7 @@ export default function SolutionClient({ slug }: { slug: string }) {
     )
   }
 
-  const selectedInQuote = selected.map(id => { const info = getServiceInfo(id); return info ? { id, ...info } : null }).filter(Boolean) as { id: string; name: string; price: number }[]
+  const selectedInQuote = selected.map(id => { const info = getServiceInfo(id); return info ? { id, name: info.name, price: effPrice(id), desc: info.desc } : null }).filter(Boolean) as { id: string; name: string; price: number }[]
 
   const recs = tree.flatMap(g => {
     if (g.subServices) return g.subServices.filter(s => s.price !== 0 && !selected.includes(s.id))
@@ -1153,8 +1172,8 @@ export default function SolutionClient({ slug }: { slug: string }) {
 
           <div className="grid md:grid-cols-2 gap-2.5 mb-6">
             {tree.map(g => g.subServices
-              ? <div key={g.id} className="md:col-span-2"><AccordionGroup g={g} selected={selected} onToggle={toggle} /></div>
-              : <ServiceCard key={g.id} g={g} selected={selected} onToggle={toggle} />
+              ? <div key={g.id} className="md:col-span-2"><AccordionGroup g={g} selected={selected} onToggle={toggle} priceOverrides={priceOverrides} /></div>
+              : <ServiceCard key={g.id} g={g} selected={selected} onToggle={toggle} priceOverrides={priceOverrides} />
             )}
             <div className="md:col-span-2 flex justify-center"><CustomCard onClick={() => setCustomOpen(true)} /></div>
           </div>
