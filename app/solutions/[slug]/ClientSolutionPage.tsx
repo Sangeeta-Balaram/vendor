@@ -3,7 +3,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, Check, ChevronDown, Zap, Phone, MessageCircle, Mail, TrendingUp, Palette, Globe, Bot, Package, HelpCircle, Clapperboard, Image, Printer, Settings, Download, Minus, Plus, X } from 'lucide-react'
-import { solutions, solutionServiceTree, formatINR, formatPDFCurrency, getServiceInfo, getServiceDuration, ganttColors, getServiceAbout, getServiceIncluded, getServiceExcluded, getServiceStages } from '@/lib/pricing'
+import { solutions, solutionServiceTree, formatINR, formatPDFCurrency, calcQuote, getServiceInfo, getServiceDuration, ganttColors, getServiceAbout, getServiceIncluded, getServiceExcluded, getServiceStages } from '@/lib/pricing'
 import type { SolutionServiceGroup, SubService } from '@/lib/pricing'
 
 const icons: Record<string, React.ReactNode> = {
